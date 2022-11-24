@@ -1,16 +1,22 @@
-﻿<div class="card @(Node.Selected ? "selected" : "")" style="width: 320px;">
-    <div class="card-header">
-        <h6 class="mb-0">@Node.Name</h6>
-    </div>
-    <ul class="list-group list-group-flush">
-        @foreach (var column in Node.Columns.OrderByDescending(c => c.Primary))
-        {
-            <TableColumn @key="column" Table="Node" Column="column"></TableColumn>
-        }
-    </ul>
+﻿@using Blazor.Diagrams.Components.Renderers
+@using Blazor.Diagrams.Core.Models;
 
-    @if (Node.HasPrimaryColumn)
-    {
-        <PortRenderer Port="Node.GetPort(PortAlignment.Right)"></PortRenderer>
-    }
-</div>
+<span>
+    <MudCard Style="@(Node.Selected ? "outline: 4px dashed var(--mud-palette-tertiary);" : "")">
+        <MudCardHeader>
+            <CardHeaderContent>
+                <MudText Typo="Typo.h6">@Node.Label</MudText>
+            </CardHeaderContent>
+            <CardHeaderActions>
+                <MudIcon Icon="@Node.Icon" Color="Color.Default" />
+            </CardHeaderActions>
+        </MudCardHeader>
+        <MudCardContent>
+            <MudTable Items="@Node.Columns" Dense Hover Striped RowClassFunc="SelectedRowClassFunc">
+                <RowTemplate>
+                    <TableColumn Table="@Node" Column="@context" />
+                </RowTemplate>
+            </MudTable>
+        </MudCardContent>
+    </MudCard>
+</span>

@@ -5,9 +5,6 @@
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item">
-                <a class="nav-link" href="#" @onclick="NewTable">New table</a>
-            </li>
-            <li class="nav-item">
                 <a class="nav-link" href="#" @onclick="ShowJson">Show JSON</a>
             </li>
             <li class="nav-item">
@@ -17,11 +14,24 @@
     </div>
 </nav>
 
-<div class="wrapper">
+<div class="diagram-container">
     <CascadingValue Value="Diagram">
-        <div class="diagram-container">
-            <DiagramCanvas></DiagramCanvas>
-        </div>
-        <Sidebar></Sidebar>
+        <MudStack Row Spacing="0" Class="mud-height-full">
+            <MudPaper Class="diagram pa-1" Elevation="0">
+                <MudPaper Elevation="25" Style="position: absolute; right: 10px; top: 10px; z-index: 1000;">
+                    <MudToolBar>
+                        <MudIconButton Icon="@Icons.TwoTone.Save" Color="Color.Primary" Title="Save" aria-label="save"></MudIconButton>
+                        <MudIconButton Icon="@Icons.TwoTone.CloudUpload">Import</MudIconButton>
+                    </MudToolBar>
+                </MudPaper>
+                <DiagramCanvas>
+                    <Widgets>
+                        <NavigatorWidget Width="200" Height="100" DefaultStyle></NavigatorWidget>
+                    </Widgets>
+                </DiagramCanvas>
+            </MudPaper>
+            <MudPaper Class="pa-1" Style="width: 300px">
+            </MudPaper>
+        </MudStack>
     </CascadingValue>
 </div>

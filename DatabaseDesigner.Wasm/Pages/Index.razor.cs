@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Newtonsoft.Json;
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
@@ -25,12 +26,14 @@ namespace DatabaseDesigner.Wasm.Pages
             AllowMultiSelection = false,
             Links = new DiagramLinkOptions
             {
+                DefaultRouter = Routers.Orthogonal,
+                DefaultPathGenerator = PathGenerators.Straight,
                 Factory = (diagram, sourcePort) =>
                 {
                     return new LinkModel(sourcePort, null)
                     {
                         Router = Routers.Orthogonal,
-                        PathGenerator = PathGenerators.Straight,
+                        PathGenerator = PathGenerators.Straight
                     };
                 }
             }
@@ -47,7 +50,48 @@ namespace DatabaseDesigner.Wasm.Pages
             base.OnInitialized();
 
             Diagram.RegisterModelComponent<Table, TableNode>();
-            Diagram.Nodes.Add(new Table());
+            var node1 = new Table("Table1", "Table 1", "fas fa-mobile", new List<Column>()
+            {
+                new Column
+                {
+                    Name = "Table1_id",
+                    Primary = true,
+                    Type = ColumnType.Integer
+                },
+                new Column
+                {
+                    Name = "Description",
+                    Type = ColumnType.String,
+                    ItemTemplate = true
+                }
+            });
+            var node2 = new Table("Table2", "Table 2", "fas fa-phone", new List<Column>()
+            {
+                new Column
+                {
+                    Name = "Table2_id",
+                    Primary = true,
+                    Type = ColumnType.Integer
+                },
+                new Column
+                {
+                    Name = "Description",
+                    Type = ColumnType.String,
+                    ItemTemplate = true
+                }
+            });
+            Diagram.Nodes.Add(node1);
+            Diagram.Nodes.Add(node2);
+
+            var childColumn = node2.Columns[1];
+            var port = node2.GetPort(childColumn);
+            var link = new LinkModel(port, node1.GetPort(PortAlignment.Right))
+            {
+                Router = Routers.Orthogonal,
+                PathGenerator = PathGenerators.Straight
+            };
+            link.Labels.Add(new LinkLabelModel(link, childColumn.Name));
+            Diagram.Links.Add(link);
 
             Diagram.Links.Added += OnLinkAdded;
             Diagram.Links.Removed += Diagram_LinkRemoved;
@@ -78,10 +122,6 @@ namespace DatabaseDesigner.Wasm.Pages
             (sourceCol.Primary ? targetCol : sourceCol).Refresh();
         }
 
-        private void NewTable()
-        {
-            Diagram.Nodes.Add(new Table());
-        }
 
         private async Task ShowJson()
         {

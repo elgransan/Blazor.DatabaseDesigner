@@ -1,24 +1,12 @@
-﻿.fully-transparent {
-    background-color: transparent;
-    border: 0;
-}
-
-.dropdown > a {
-    color: black;
-}
-
-.node > .card.selected {
-    border: 1px #4582ec solid;
-}
-
-.list-group {
-    border-bottom: unset;
+﻿
+::deep .selected {
+    background-color: var(--mud-palette-table-striped);
 }
 
 ::deep .port {
-    width: 20px;
-    height: 46px;
-    position: absolute;
+    height: 14px;
+    position: relative;
+    display: inline-block;
 }
 
     ::deep .port:hover {
@@ -26,19 +14,10 @@
         cursor: pointer;
     }
 
-.node > .card.selected ::deep .port {
-    border-right-color: #4582ec; 
-    border-left-color: #4582ec; 
-}
-
     ::deep .port.right {
-        top: 45px;
-        right: -1px;
         border-right: 1px solid rgba(0,0,0,0.125);
     }
 
     ::deep .port.left {
-        top: 0;
-        left: -1px;
         border-left: 1px solid rgba(0,0,0,0.125);
     }

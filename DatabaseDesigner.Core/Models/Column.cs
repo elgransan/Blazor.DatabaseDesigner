@@ -9,6 +9,7 @@ namespace DatabaseDesigner.Core.Models
         public string Name { get; set; }
         public ColumnType Type { get; set; }
         public bool Primary { get; set; }
+        public bool ItemTemplate { get; set; }
 
         public void Refresh() => Changed?.Invoke();
     }

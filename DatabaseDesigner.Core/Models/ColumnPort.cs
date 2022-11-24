@@ -21,6 +21,9 @@ namespace DatabaseDesigner.Core.Models
                 return false;
 
             var targetPort = port as ColumnPort;
+
+            if (targetPort == null) return false;
+
             var targetColumn = targetPort.Column;
 
             if (Column.Type != targetColumn.Type)
